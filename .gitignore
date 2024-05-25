@@ -1,3 +1,5 @@
 /test.py
 
-.sqlite3
+*.sqlite3
+
+*/elearn_env/*
