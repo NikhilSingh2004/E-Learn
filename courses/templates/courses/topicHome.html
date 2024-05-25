@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+{{ course }}
+{% endblock title %}
+
+{% block courseActive %}
+active
+{% endblock courseActive %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <!-- Left column for topics navigation -->
+        <div class="d-flex flex-column flex-shrink-0 p-3" style="width: 280px;">
+            <a class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
+                <span class="fs-4">{{ course }}</span>
+            </a>
+            <hr>
+            <ul class="nav nav-pills flex-column mb-auto" id="topics-list">
+                {% for topic in topics %}
+                <li class="nav-item">
+                    <a href="{% url 'TopicHome' topic.course topic.id %}" class="nav-link link-dark active my-2">{{topic.name }}</a>
+                </li>
+                {% endfor %}
+            </ul>
+            <br>
+        </div>
+
+        <!-- Right column for displaying topic content -->
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 my-4" id="topic-content">
+            <div id="{{ topic.slug }}" class="container">
+                <h2 class="border-bottom mb-5 pb-3 ms-0">{{ topic.name }}</h2>
+                <div
+                    class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                    <div class="col p-4 d-flex flex-column position-static">
+                        {{ topic.content }}
+                    </div>
+                    <div class="col-auto d-none d-lg-block">
+
+                    </div>
+                </div>
+                {% if request.user.is_authenticated %}
+                    <h2 class="display-6 d-flex flex-column align-items-start my-2">Post Your Query...</h1>
+                    <form method="POST" action="{% url 'PostComment' topic.id %}" novalidate>
+                        {% csrf_token %}
+                        {% for form in forms %}
+                        {{form}}
+                        {{ form.non_field_errors }}
+                        {% endfor %}
+                        <button class="btn btn-outline-success my-3 mx-auto" type="submit">Comment</button>
+                    </form>
+                {% else %}
+                    <h2 class="display-6 my-2 mx-0">Comments</h1>
+                    <span>Please Log In to Comment!.</span>
+                {% endif %}
+
+                <div class="container p-0 m-0">
+                    {% if comments %}
+                        <h2 class="display-6 d-flex flex-column align-items-start my-2">Comments</h1>
+                            {% for comment in comments %}
+                                {% if not comment.parent %}
+                                    <div class="row m-0 mb-3 my-3">
+                                        {% comment %} Image  {% endcomment %}
+                                        <div class="col-lg-1">
+                                            <img src="{% static 'core/images/e-learn-high-resolution-logo-black.png' %}" class="rounded-circle w-100" width="50" height="50" />
+                                        </div>
+                                        {% comment %} Name & Timestamp {% endcomment %}
+                                        <div class="col-lg-1 d-flex flex-column align-items-start">
+                                            <h6>{{ comment.user.username }}</h6>
+                                            <span class="text-muted" style="font-size: 12px;">{{ comment.timestamp|date:"j F Y" }}</span>
+                                        </div>
+                                        {% comment %} The actucal content {% endcomment %}
+                                        <div class="col-lg-7 d-flex align-items-start">
+                                            {{comment.content}}
+                                            <br>
+                                            <div class="container">
+
+                                                <div class="row mx-0">
+                                                    <div class="col-lg-1"></div> <!-- Spacer column -->
+                                                    <div class="col-lg-11">
+                                                        {% for rcom in rcomments %}
+                                                            <div class="row m-0 mb-3 my-3">
+                                                                <!-- Image -->
+                                                                <div class="col-lg-1">
+                                                                    <img src="{% static 'core/images/e-learn-high-resolution-logo-black.png' %}" class="rounded-circle w-100" width="40" height="40" />
+                                                                </div>
+                                                                <!-- Name & Timestamp -->
+                                                                <div class="col-lg-1 d-flex flex-column align-items-start">
+                                                                    <h6>{{ rcom.user.username }}</h6>
+                                                                    <span class="text-muted" style="font-size: 12px;">{{ rcom.timestamp|date:"j F Y" }}</span>
+                                                                </div>
+                                                                <!-- Content -->
+                                                                <div class="col-lg-10">
+                                                                    {{rcom.content}}
+                                                                </div>
+                                                            </div>
+                                                        {% endfor %}
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        {% comment %} Reply Section {% endcomment %}
+                                        <div class="col-lg-3 d-flex align-items-start">
+
+                                            {% if request.user.is_authenticated %}
+                                                <a href="{% url 'TopicHome' topic.course.name topic.id comment.id %}" class="btn btn-primary btn-sm" type="button">
+                                                    Reply
+                                                </a>
+                                                <form method="POST" action="{% url 'ReplyComment' topic.id comment.id %}" novalidate class="mx-2">
+                                                    {% csrf_token %}
+                                                    {% for rf in rforms %}
+                                                        <div class="container">
+                                                            {{ rf.content }}
+                                                            <input type="text" name="my_custom_name" value="{{ rf.content.value }}">
+                                                            <button class="btn btn-outline-warning my-2 btn-sm">Post Reply</button>
+                                                        </div>
+                                                    {% endfor %}
+                                                </form>
+                                            {% endif %}
+
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                    {% else %}
+                        <h2 class="display-6 d-flex flex-column align-items-start my-2">Be the first to share your opinion...</h1>
+                    {% endif %}
+                </div>
+            </div>
+        </main>
+
+    </div>
+</div>
+
+{% endblock content %}

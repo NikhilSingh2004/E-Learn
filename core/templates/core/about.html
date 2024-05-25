@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}
+
+About
+
+{% endblock title %}
+
+{% block aboutActive %}
+
+active
+
+{% endblock aboutActive %}
+
+{% block content %} 
+
+<!-- Image -->
+
+<div class="m-0 p-0 bg-light rounded-3" style="background-color: rgb(217, 241, 255);">
+    <div id="carouselExampleSlidesOnly" class="carousel slide mb-4" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="{% static 'core/images/BooksImage.jpg' %}" style="width: 1900px; height: 600px;" class="d-block w-100" alt="Img">
+            </div>
+            <div class="carousel-caption d-none d-md-block">
+                <h1 class="display-3 bg-dark text-center text-light">E-Learn <br><span>Knowledge Limitless!..</span></h1>
+                {% comment %} <h3 class="display-3 bg-dark text-center text-light"></h3> {% endcomment %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="p-5 mb-4 bg-light rounded-3">
+    <img class="d-block mx-auto shadow-lg mb-4 rounded-circle" src="{% static 'core/images/e-learn-high-resolution-logo-black.png' %}" alt="" width="200" height="200">
+    <div class="px-4 pt-5 text-center">
+        <span><h1 class="display-4 fw-bold">E-Learn</h1><h3>Knowledge Limitless!..</h3></span>
+        <div class="col-lg-6 mx-auto">
+            <p class="lead mb-4">Welcome to E-Learn, where knowledge knows no bounds! 🚀 Dive into a world of limitless wisdom as we unravel the secrets of diverse topics. Our carefully curated courses are crafted to enlighten, inspire, and empower you. Explore the realms of curiosity and broaden your horizons with each captivating read. Knowledge is not just power; it's limitless! 🌐✨ Embark on a journey of discovery and transform the way you perceive the world. Ready to expand your mind? Start exploring now!</p>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="container">
+        <div class="container my-5 mx-2">
+            <h1 class="display-5 fw-bold pb-2 border-bottom">Our Founder</h1>
+            <div class="row featurette">
+                <div class="col-md-7 order-md-2">
+                    <div class="container my-5 pt-5 py-5">
+                        <h2 class="featurette-heading">Nikhil Singh</h2>
+                        <p class="lead">
+                            Welcome to <b>E-Learn</b>, your go-to destination for mastering programming languages! I'm Nikhil Santan Singh, a passionate BSc IT student driven by the desire to empower others with the transformative skills of coding. This website is the culmination of my final year project, born from the belief that knowledge should be shared freely among peers. Whether you're a beginner or an enthusiast, join me on this journey to unlock the world of programming languages and unleash your potential in the digital realm. ...... Nikhil Singh
+                        </p>
+                    </div>
+                </div>
+                <div class="my-5 col-md-5 order-md-1">
+                    <img class="img-fluid shadow-lg rounded-circle" style="width: 350px; height: 350px;" src="{% static 'core/images/e-learn-high-resolution-logo-white.png' %}" alt="Img"
+                        name="Founder">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>  
+
+<div class="p-5 text-white bg-secondary rounded-3">
+    <div class="container">
+        <h1 class="display-5 fw-bold pb-3 border-bottom">Our Vision</h1>
+        <div class="container my-3 pt-5 py-5">
+            </h2>
+            <p class="lead">
+                🌟 <b>E-Learn</b>, where we envision a world where programming education is accessible to all! Our mission is to break down barriers and make learning programming languages as easy as pie for both tech wizards and newcomers alike. 💻 With our user-friendly platform, we strive to create a vibrant community where knowledge flows freely and collaboration thrives. 🚀 Join us on this exciting journey as we empower learners to unleash their potential and soar to new heights in the digital universe! 🌌 Let's code, connect, and conquer together! 🔥
+            </p>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

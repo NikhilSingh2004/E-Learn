@@ -1,0 +1,39 @@
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.content {
+    flex: 1; /* This makes the content area take up the remaining vertical space */
+}
+
+.footer {
+    flex-shrink: 0; /* Prevents the footer from shrinking when there's not enough content */
+}
+
+.side-navigation {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 280px;
+    padding: 20px;
+    background-color: #f8f9fa; /* Adjust background color as needed */
+    border-right: 1px solid #dee2e6; /* Add a border on the right for separation */
+    overflow-y: auto; /* Allow vertical scrolling if content exceeds height */
+    z-index: 1000; /* Ensure it's above other content */
+}
+
+/* Adjustments to ensure the content is not hidden behind the fixed navigation */
+.main-content {
+    margin-left: 280px; /* Adjust according to the width of your navigation */
+    padding: 20px; /* Add padding to prevent content from sticking to the left edge */
+}
+
+.sticky {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+}

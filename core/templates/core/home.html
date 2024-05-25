@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}
+
+Home
+
+{% endblock title %}
+
+{% block homeActive %}
+
+active
+
+{% endblock homeActive %}
+
+{% block content %}
+
+<div class="container pt-2 mt-5 rounded">
+    <h1 class="display-3" style="color : rgb(53, 30, 16);">Welcome to E-Learn Website</h1>
+    <div class="container my-5 pt-5 rounded" style="background-color : rgb(252,235,215);">
+        <div class="row g-0 rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+            <div class="col p-4 d-flex flex-column position-static rounded">
+                <h3 class="mb-0 display-2 fw-bold">E-Learn</h3>
+                <p class="mb-auto display-6">E-Learn in an Website to explore knowledge of various differrent streams.
+                </p>
+                <h5 style="color : rgb(53, 30, 16);">Knowledge Limitless!..</h5>
+            </div>
+            <div class="col-auto d-none d-lg-block rounded">
+                <img src="{% static 'core/images/HomeImage.png' %}" class="d-block w-100" alt="Img">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="p-5 mb-4 bg-light rounded-3" style="background-color: rgb(217, 241, 255);">
+    <img class="d-block mx-auto mb-4 rounded-circle" src="{% static 'core/images/e-learn-high-resolution-logo.png' %}" alt="" width="200"
+        height="200">
+    <div class="px-4 pt-5 text-center border-bottom">
+        <span>
+            <h1 class="display-4 fw-bold">E-Learn</h1>
+            <h3>Knowledge Limitless!..</h3>
+        </span>
+        <div class="col-lg-6 mx-auto">
+            <p class="lead mb-4">Welcome to E-Learn, where knowledge knows no bounds! 🚀 Dive into a world of limitless
+                wisdom as we unravel the secrets of diverse topics. Our carefully curated courses are crafted to
+                enlighten, inspire, and empower you. Explore the realms of curiosity and broaden your horizons with each
+                captivating read. Knowledge is not just power; it's limitless! 🌐✨ Embark on a journey of discovery and
+                transform the way you perceive the world. Ready to expand your mind? Start exploring now!</p>
+            <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mb-5">
+                <a href="{% url 'CoursesHome' %}" class="btn btn-primary btn-lg px-4 me-sm-3">Courses</a>
+                <a href="{% url 'About' %}" class="btn btn-outline-secondary btn-lg px-4">About</a>
+            </div>
+        </div>
+        <div class="overflow-hidden" style="max-height: 30vh;">
+            <div class="container px-5">
+                <img src="{% static 'core/images/HomeImage.png' %}" class="img-fluid border rounded-3 shadow-lg mb-4"
+                    alt="Example image" width="700" height="500" loading="lazy">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="container">
+        <div class="container">
+            <div class="container my-5 mx-2">
+                <h1 class="display-4 pb-4 border-bottom mb-5">Popular Courses</h1>
+    
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+    
+                    {% for course in courses %}
+    
+                    <div class="col">
+                        <div class="card shadow-sm">
+                            <svg class="bd-placeholder-img card-img-top" width="100%" height="225"
+                                xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail"
+                                preserveAspectRatio="xMidYMid slice" focusable="false">
+                                <rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef"
+                                    dy=".3em"></text>
+                            </svg>
+    
+                            <div class="card-body">
+                                <h5 class="display-6">{{course.name}}</h5>
+                                <p class="card-text">{{course.description}}</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="btn-group">
+                                        <a href="{% url 'TopicHome' course.name %}"
+                                            class="btn btn-sm btn-outline-success">View Course</a>
+                                    </div>
+                                    <small class="text-muted">{{course.start_date}}</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+    
+                <br>
+    
+                <!-- Pagination links -->
+                <nav aria-label="Page navigation">
+                    <ul class="pagination justify-content-center">
+                        {% if courses.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page=1" aria-label="First">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ courses.previous_page_number }}" aria-label="Previous">
+                                <span aria-hidden="true">&lt;</span>
+                            </a>
+                        </li>
+                        {% endif %}
+    
+                        <li class="page-item disabled">
+                            <span class="page-link">Page {{ courses.number }} of {{ courses.paginator.num_pages }}</span>
+                        </li>
+    
+                        {% if courses.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ courses.next_page_number }}" aria-label="Next">
+                                <span aria-hidden="true">&gt;</span>
+                            </a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ courses.paginator.num_pages }}" aria-label="Last">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+    
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

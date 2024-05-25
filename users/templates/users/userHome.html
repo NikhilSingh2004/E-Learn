@@ -1,0 +1,162 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}
+
+{{user}}
+
+{% endblock title %}
+
+{% block profileActive %}
+
+active
+
+{% endblock profileActive %}
+
+{% block content %}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="d-flex flex-column flex-shrink-0 p-3" style="width: 280px;">
+            <a class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
+                <span class="fs-4">{{user}}</span>
+            </a>
+            <hr>
+            <ul class="nav nav-pills flex-column mb-auto">
+                <li class="nav-item">
+                    <a href="{% url 'UserHome' %}" class="nav-link link-dark active my-2" aria-current="page">
+                        Home
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="nav-link link-dark active my-1">
+                        Products (In Progress)
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'Contact' %}" class="nav-link link-dark active my-1">
+                        Contact Us / Help
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'CoursesHome' %}" class="nav-link link-dark active my-1">
+                        Courses
+                    </a>
+                </li>
+            </ul>
+            <hr>
+            <br>
+            <br>
+            <br>
+            <div class="container my-5 py-5">
+            </div>
+            <br>
+            <br>
+            <br>
+            <div class="dropdown">
+                <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle"
+                    id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="{% static 'core/images/Settings.png' %}" alt="" width="32" height="32"
+                        class="rounded-circle">
+                    <h5 class="nav-link link-dark active my-1">Settings</h5>
+                </a>
+                <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
+                    <li><a class="dropdown-item" href="{% url 'EditProfile' request.user.username %}">Edit Profile</a>
+                    </li>
+                    <li><a class="dropdown-item" href="{% url 'ChangePassword' %}">Change Password</a></li>
+                    <li><a class="dropdown-item" href="{% url 'DeleteUser' %}">Delete Profile</a></li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li><a class="dropdown-item" href="{% url 'LogOut' %}">Log Out</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 my-4">
+            {% if notAuthor %}
+            <h2 class="border-bottom mb-5 pb-3 ms-0">Enrolled Courses</h2>
+            {% else %}
+            <h1 class="display-4 pb-4 border-bottom mb-5">Popular Courses</h1>
+            {% endif %}
+            <div class="container">
+                <div class="container">
+                    <div class="container my-5 mx-2">
+                        {% comment %} <h1 class="display-4 pb-4 border-bottom mb-5">Popular Courses</h1> {% endcomment %}
+            
+                        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+            
+                            {% for course in courses %}
+            
+                            <div class="col">
+                                <div class="card shadow-sm">
+                                    <svg class="bd-placeholder-img card-img-top" width="100%" height="225"
+                                        xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail"
+                                        preserveAspectRatio="xMidYMid slice" focusable="false">
+                                        <rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef"
+                                            dy=".3em"></text>
+                                    </svg>
+            
+                                    <div class="card-body">
+                                        <h5 class="display-6">{{course.name}}</h5>
+                                        <p class="card-text">{{course.description}}</p>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div class="btn-group">
+                                                <a href="{% url 'TopicHome' course.name %}"
+                                                    class="btn btn-sm btn-outline-success">View Course</a>
+                                            </div>
+                                            <small class="text-muted">{{course.start_date}}</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+            
+                        <br>
+            
+                        <!-- Pagination links -->
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination justify-content-center">
+                                {% if courses.has_previous %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page=1" aria-label="First">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ courses.previous_page_number }}" aria-label="Previous">
+                                        <span aria-hidden="true">&lt;</span>
+                                    </a>
+                                </li>
+                                {% endif %}
+            
+                                <li class="page-item disabled">
+                                    <span class="page-link">Page {{ courses.number }} of {{ courses.paginator.num_pages }}</span>
+                                </li>
+            
+                                {% if courses.has_next %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ courses.next_page_number }}" aria-label="Next">
+                                        <span aria-hidden="true">&gt;</span>
+                                    </a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ courses.paginator.num_pages }}" aria-label="Last">
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                </li>
+                                {% endif %}
+                            </ul>
+                        </nav>
+            
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+</div>
+
+{% endblock content %}
