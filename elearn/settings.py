@@ -1,27 +1,17 @@
-'''
-    Super User : NikhilSuper
-    Password : N!*#!l_@))$
-    Email : nikhilsuper@gmail.com
-
-    Nikhil User : NikhilUser
-    Password : N!*#!l_2004
-    Email : nikhiluser@gmail.com
-
-    Test Users : TestUser<int:variable>
-    Password : !@#$%^&*
-'''
-
 import os
 from pathlib import Path
 from django.contrib import messages
+from dotenv import load_dotenv
+
+load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
 
-SECRET_KEY = 'django-insecure-b@w0$2*a1pix+ztxa1@4v%g+p@%p9sr-%=z($=yteg6*4q&cr)'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
-DEBUG = True
+DEBUG = os.getenv('DEBUG')
 
 ALLOWED_HOSTS = ['.vercel.app', '.now.sh', '127.0.0.1', '*']
 
@@ -57,10 +47,10 @@ MIDDLEWARE = [
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-DEFAULT_FROM_EMAIL = "E-Learn"
-EMAIL_HOST_USER = 'elearnweb11@gmail.com'
-EMAIL_HOST_PASSWORD = 'febnxqcwyfndllvb'
+EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS')
+DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL')
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 
 ROOT_URLCONF = 'elearn.urls'
 
@@ -96,17 +86,6 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
-# DATABASES = {
-# 	'default': {
-# 		'ENGINE': 'django.db.backends.mysql',
-# 		'NAME': 'elearn',
-# 		'USER': 'root',
-# 		'PASSWORD': 'Nikhil_2004',
-# 		'HOST':'localhost',
-# 		'PORT':'3306',
-# 	}
-# }
 
 AUTH_PASSWORD_VALIDATORS = [
     {
