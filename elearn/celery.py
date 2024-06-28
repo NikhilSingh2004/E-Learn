@@ -6,7 +6,10 @@ from celery import Celery
 # Set the default Django settings module for the 'celery' program.
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'elearn.settings')
 
-app = Celery('elearn')
+# app = Celery('elearn')
+
+from django.conf import settings
+app = Celery('projectSlackBot', broker=settings.CELERY_BROKER_URL)
 
 # Using a string here means the worker doesn't have to serialize
 # the configuration object to child processes.
