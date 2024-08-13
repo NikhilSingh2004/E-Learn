@@ -3,6 +3,7 @@ from django.contrib import messages
 from django.shortcuts import render
 from django.core.mail import send_mail
 from core.models import ContactUs, Comment
+from .task import send_contact_email
 from elearn.settings import EMAIL_HOST_USER
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
@@ -66,38 +67,26 @@ def Contact(request: HttpRequest) -> HttpResponse:
 
                 print(body)
 
-                try:
-                    sent_or_not = send_mail(
-                        subject,
-                        body,
-                        email,
-                        recipient_list= [EMAIL_HOST_USER],
-                        fail_silently= False
+                # Use the Celery task
+                task = send_contact_email.delay(subject, body, email)
+
+                # Check if the task was successful
+                if task:
+                    contact = ContactUs.objects.create(
+                        first_name = f_name,
+                        last_name = l_name,
+                        username = username,
+                        email = email,
+                        subject = subject,
+                        body = body,
+                        footer = footer
                     )
-
-                    if sent_or_not:
-                        contact = ContactUs.objects.create(
-                            first_name = f_name,
-                            last_name = l_name,
-                            username = username,
-                            email = email,
-                            subject = subject,
-                            body = body,
-                            footer = footer
-                        )
-
-                        contact.save()
-
-                        messages.success(request, "Mail was successfuly sent!")
-                        return render(request, 'core/contact.html', context) 
-
+                    contact.save()
+                    messages.success(request, "Mail was successfuly sent!")
+                else:
                     messages.error(request, "Mail was not Successfuly Sent!")
-                    return render(request, 'core/contact.html', context)       
 
-                except Exception as e:
-                    print(e.__str__())
-                    messages.error(request, "Something Went Wrong!")
-                    return render(request, 'core/contact.html', context) 
+                return render(request, 'core/contact.html', context)
 
             messages.error(request, "Please Fill the From Correctly!")
             return render(request, 'core/contact.html', context)
